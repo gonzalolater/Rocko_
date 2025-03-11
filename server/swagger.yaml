@@ -1,0 +1,884 @@
+openapi: 3.0.3
+info:
+  title: Rocko Backend API Docs
+  version: 1.0.1
+servers:
+  - url: https://backend.dev.rocko.cloud
+  - url: http://localhost:5000
+  - url: https://backend.prod.rocko.cloud
+tags:
+  - name: loan
+  - name: alert
+  - name: asset
+  - name: user
+  - name: compliance
+  - name: marketing
+  - name: healthCheck
+  - name: coinbase
+paths:
+  /loans:
+    get:
+      tags:
+        - loan
+      summary: ""
+      description: ""
+      parameters:
+        - name: user
+          in: query
+          description: ""
+          required: false
+          explode: true
+          schema:
+            type : integer
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Loan'          
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Loan'
+        '400':
+          description: Invalid status value
+      security:
+        - bearerAuth: [] 
+  /add:
+    post:
+      tags:
+        - loan
+      summary: ''
+      description: ''
+      requestBody:
+         content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddLoan'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/AddLoan'
+            application/x-www-form-urlencoded:
+              schema:
+                $ref: '#/components/schemas/AddLoan'
+      responses:
+        '200':
+          description: Successful operation
+      security:
+        - bearerAuth: [] 
+  /update:
+    post:
+      tags:
+        - loan
+      requestBody:
+         content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateLoan'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/UpdateLoan'
+            application/x-www-form-urlencoded:
+              schema:
+                $ref: '#/components/schemas/UpdateLoan'
+      responses:
+        '200':
+           description: Successful operation
+      security:
+        - bearerAuth: [] 
+  /alerts:
+    get:
+        tags:
+          - alert
+        summary: ""
+        description: ""
+        parameters:
+          - name: loanId
+            in: query
+            description: ""
+            required: false
+            explode: true
+            schema:
+              type : integer
+              format: int64
+              minimum: 1
+        responses:
+          '200':
+            description: successful operation
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Alert'          
+              application/xml:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Alert'
+          '400':
+            description: Invalid value
+        security:
+          - bearerAuth: [] 
+  /addAlert:
+    post:
+        tags:
+          - alert
+        summary: ""
+        description: ""
+        requestBody:
+         content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddAlert'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/AddAlert'
+            application/x-www-form-urlencoded:
+              schema:
+                $ref: '#/components/schemas/AddAlert'
+        responses:
+          '200':
+            description: Alert successfully saved
+          '400':
+            description: Invalid status value
+          '401':
+            description: Unauthorized
+        security:
+          - bearerAuth: [] 
+  /updateAlert: 
+     post:
+        tags:
+          - alert
+        summary: ""
+        description: ""
+        requestBody:
+         content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateAlert'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/UpdateAlert'
+            application/x-www-form-urlencoded:
+              schema:
+                $ref: '#/components/schemas/UpdateAlert'
+        responses:
+          '200':
+            description: Alert successfully updated
+          '400':
+            description: Invalid value
+          '401':
+            description: Unauthorized
+        security:
+          - bearerAuth: [] 
+  /deleteAlert:
+    post:
+        tags:
+          - alert
+        summary: ""
+        description: ""
+        requestBody:
+         content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteAlert'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/DeleteAlert'
+            application/x-www-form-urlencoded:
+              schema:
+                $ref: '#/components/schemas/DeleteAlert'
+        responses:
+          '200':
+            description: Alert successfully removed
+          '400':
+            description: Invalid value
+          '401':
+            description: Unauthorized
+        security:
+          - bearerAuth: [] 
+  /average_apr:
+    get:
+        tags:
+          - asset
+        summary: ""
+        description: ""
+        parameters:
+          - name: openDate
+            in: query
+            description: ""
+            required: false
+            explode: true
+            schema:
+              type : string
+              example: month
+          - name: network
+            in: query
+            description: ""
+            required: false
+            explode: true
+            schema:
+              type : string
+              example: sepolia
+        responses:
+          '200':
+            description: ""
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    average_apr:
+                      type: number
+          '400':
+            description: Invalid value
+  /average_reward_rate:
+    get:
+        tags:
+          - asset
+        summary: ""
+        description: ""
+        parameters:
+          - name: network
+            in: query
+            description: ""
+            required: false
+            explode: true
+            schema:
+              type : string
+              example: sepolia
+        responses:
+          '200':
+            description: ""
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      average_reward_rate:
+                        type: number
+          '400':
+            description: Invalid status value
+  /reward_rate:
+    get:
+        tags:
+          - asset
+        summary: ""
+        description: ""
+        parameters:
+          - name: network
+            in: query
+            description: ""
+            required: false
+            explode: true
+            schema:
+              type : string
+              example: sepolia
+        responses:
+          '200':
+            description: ""
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    borrow_reward_rate:
+                      type: number
+          '400':
+            description: Invalid status value
+  /addUser:
+    post:
+        tags:
+          - user
+        summary: ""
+        description: ""
+        requestBody:
+         content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddUser'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/AddUser'
+            application/x-www-form-urlencoded:
+              schema:
+                $ref: '#/components/schemas/AddUser'
+        responses:
+          '200':
+            description: Data successfully saved in users table!
+          '400':
+            description: Invalid status value
+          '403':
+            description: Cannot create user
+  /updateUser:
+    post:
+      tags:
+        - user
+      summary: ""
+      description: ""
+      requestBody:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  email:
+                    type: string
+                    example: aceruling@gmail.com
+                  phone:
+                    type: string
+                    example: 333-343-434
+      responses:
+          '200':
+            description: Data successfully saved in users table!
+          '400':
+            description: Invalid value
+          '403':
+            description: Cannot create user
+      security:
+        - bearerAuth: [] 
+  /updateCountry:
+    patch:
+      tags:
+        - user
+      summary: ""
+      description: ""
+      requestBody:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  email:
+                    type: string
+                    example: example@mail.com
+                  country:
+                    type: string
+                    example: United States
+                  ip:
+                    type: string
+                    example: 98.97.87.21
+      responses:
+          '200':
+            description: Country info updated successfully saved.
+          '400':
+            description: Invalid status value
+          '403':
+            description: Cannot create user
+      security:
+        - bearerAuth: [] 
+  /users:
+    post:
+      tags:
+        - user
+      summary: ""
+      description: ""
+      requestBody:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  email:
+                    type: string
+                    example: example@mail.com
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'          
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '400':
+          description: Invalid status value
+        '401':
+          description: Unauthorized Invalid email
+      security:
+        - bearerAuth: [] 
+  /userid:
+    post:
+      tags:
+        - user
+      summary: ""
+      description: ""
+      requestBody:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  email:
+                    type: string
+                    example: example@mail.com
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+               schema:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+        '400':
+          description: Invalid status value
+        '401':
+          description: Unauthorized Invalid email
+      security:
+        - bearerAuth: [] 
+  /comp/address:
+    post:
+      tags:
+        - compliance
+      summary: ""
+      description: ""
+      requestBody:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  address:
+                    type: string
+                    example: "0x616074f143306b4CeFe272E546f73044e85C6d6d"
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Bad Reques
+        '401':
+          description: Unauthorized
+      security:
+        - bearerAuth: [] 
+  /comp/transaction:
+    post:
+      tags:
+        - compliance
+      summary: ""
+      description: ""
+      requestBody:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  transaction_hash:
+                    type: string
+                    example: "0xb32cc3ef574e79257d2a87a0a04c53efc798c3f9c762c4924b6645175ce093f5"
+                  destination_address:
+                    type: string
+                    example: "0xX"
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Bad Reques
+        '401':
+          description: Unauthorized
+      security:
+        - bearerAuth: [] 
+  /comp/platform-status:
+    get:
+      tags:
+        - compliance
+      summary: ""
+      description: ""
+      responses:
+        '200':
+          description: ""
+          content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    loan_booking_blocked:
+                      type: number
+                    transactions_blocked:
+                      type: number
+        '400':
+          description: Bad Reques
+        '401':
+          description: Unauthorized
+  /marketing/follower-count:
+    get:
+      tags:
+        - marketing
+      summary: ""
+      description: ""
+      responses:
+        '200':
+          description: ""
+          content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                    email:
+                      type: number
+        '400':
+          description: Bad Reques
+        '401':
+          description: Unauthorized
+  /healthCheck:
+     get:
+      tags:
+        - healthCheck
+      summary: ""
+      description: ""
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Reques
+        '401':
+          description: Unauthorized
+  /cb-callback:
+    get:
+      tags:
+        - coinbase
+      summary: ""
+      description: ""
+      parameters:
+        - name: code
+          in: query
+          description: ""
+          required: false
+          explode: true
+          schema:
+            type : string
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Invalid status value
+      security:
+        - bearerAuth: [] 
+  /coinbase-balance:
+    get:
+      tags:
+        - coinbase
+      summary: ""
+      description: ""
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Invalid status value
+      security:
+        - bearerAuth: [] 
+components:
+  schemas:
+    Loan:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        user_id:
+          type: integer
+          format: int64
+          example: 21
+        transaction_hash:
+          type: string
+          example: "0x2f6360e8e282dbf361c3a5d125d9b4e3568505f7186c9334c3347dea4782fe7a"
+        lending_protocol:
+          type: string
+        loan_active:
+          type: integer
+        loan_asset:
+          type: string
+        principal_balance: 
+          type: number
+        outstanding_balance:
+          type: number
+        collateral: 
+          type: integer
+        interest:
+          type: number
+        collateral_decimals:
+          type: integer
+        created_time:
+          type: string
+      xml:
+        name: Loan
+    AddLoan:
+      type: object
+      properties:
+        user:
+          type: integer
+          format: int64
+          example: 26
+        transaction_hash:
+          type: string
+          example: "0x2f6360e8e282dbf361c3a5d125d9b4e3568505f7186c9334c3347dea4782fe7a"
+        lending_protocol:
+          type: string
+          example: compound
+        loan_active:
+          type: boolean
+          example: 1
+        loan_asset:
+          type: string
+          example: ETH
+        outstanding_balance:
+          type: number
+          example: 3000.000000
+        collateral: 
+          type: integer
+          example: 182202000000000000
+        exist:
+          type: boolean
+          example: 0
+      xml:
+        name: AddLoan
+    UpdateLoan:
+      type: object
+      properties:
+        updateType:
+          type: string
+          example: repay
+        id:
+          type: integer
+          format: int64
+          example: 26
+        loan_active:
+          type: boolean
+          example: 1
+        outstanding_balance:
+          type: number
+          example: 3000.000000
+        collateral: 
+          type: integer
+          example: 182202000000000000
+        interest: 
+          type: number
+          example: 0.000000
+        transaction_hash:
+          type: string
+          example: "0x2f6360e8e282dbf361c3a5d125d9b4e3568505f7186c9334c3347dea4782fe7a"
+      xml:
+        name: UpdateLoan
+    Alert:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        loan_id:
+          type: integer
+          format: int64
+          example: 21
+        alert_type:
+          type: string
+          example: Collateral
+          enum:
+            - Collateral
+            - APR
+        alert_metric:
+          type: string
+          example: Below
+          enum:
+            - Below
+            - Above
+        alert_threshold:
+          type: integer
+          example: 15
+        alert_email:
+          type: integer
+          example: 0
+        alert_phone: 
+          type: integer
+          example: 1
+        alert_repeat_secs:
+          type: integer
+          example: 0
+        alert_once:
+          type: integer
+          example: 0
+        active:
+          type: boolean
+          example: 1
+        triggered:
+          type: integer
+          example: 1
+        triggered_time:
+          type: string
+        user_id:
+          type: integer
+          example: 19
+    AddAlert:
+      type: object
+      properties:
+        loan_id:
+          type: integer
+          format: int64
+          example: 21
+        alert_type:
+          type: string
+          example: Collateral
+          enum:
+            - Collateral
+            - APR
+        alert_metric:
+          type: string
+          example: Below
+          enum:
+            - Below
+            - Above
+        alert_threshold:
+          type: integer
+          example: 15
+        alert_email:
+          type: integer
+          example: 0
+        alert_phone: 
+          type: integer
+          example: 1
+        alert_repeat_secs:
+          type: integer
+          example: 0
+        alert_once:
+          type: integer
+          example: 0
+        active:
+          type: boolean
+          example: 1
+    UpdateAlert:
+      type: object
+      properties:
+        id: 
+          type: integer
+          example: 114
+        alert_metric:
+          type: string
+          example: Below
+          enum:
+            - Below
+            - Above
+        alert_threshold:
+          type: integer
+          example: 15
+        alert_email:
+          type: integer
+          example: 0
+        alert_phone: 
+          type: integer
+          example: 1
+        alert_repeat_secs:
+          type: integer
+          example: 0
+        alert_once:
+          type: integer
+          example: 0
+        active:
+          type: boolean
+          example: 1
+    DeleteAlert: 
+        type: object
+        properties:
+          id: 
+            type: integer
+            example: 114
+          active:
+            type: boolean
+            example: 0
+    AddUser:
+      type: object
+      properties:
+          email:
+            type: string
+            example: example@mail.com
+          wallet_address:
+            type: number
+            example: 0x8dBD033bE555b6081e5bCf8662677fF23E118c9B
+          country_origin:
+            type: string
+            example: United States
+          ipaddress_lastlogin:
+            type: string
+            example: Below
+          active:
+            type: boolean
+            example: 
+    User:
+      type: object
+      properties:
+          id:
+            type: integer
+            example: 1
+          email:
+            type: string
+            example: example@mail.com
+          phone: 
+            type: string
+            example: 3333343434
+          phone_verified:
+            type: boolean
+            example: 0
+          wallet_address:
+            type: number
+            example: 0x8dBD033bE555b6081e5bCf8662677fF23E118c9B
+          inactive:
+            type: boolean
+            example: 0
+          readonly:
+            type: boolean
+            example: 0
+          mfa_enabled: 
+            type: string
+          country_origin:
+            type: string
+            example: United States
+          country_lastlogin:
+            type: string
+            example: United States
+          ipaddress_lastlogin:
+            type: string
+            example: Below
+          is_vpn:
+            type: boolean
+            example: 0
+          create_time:
+            type: string
+            example: 2023-12-19T05:37:59.000Z
+          modified_time:
+            type: string
+            example: 2023-12-19T05:37:59.000Z
+  requestBodies:
+    Loan:
+      description: Pet object that needs to be added to the store
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Loan'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Loan'
+  securitySchemes:
+    bearerAuth:            # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT 

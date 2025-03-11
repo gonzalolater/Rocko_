@@ -1,0 +1,43 @@
+{
+  "extends": ["next/core-web-vitals", "airbnb", "prettier"],
+  "plugins": ["prettier"],
+  "ignorePatterns": ["build/", "node_modules/", ".next/", ".netlify/"],
+  "rules": {
+    "prettier/prettier": "error",
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
+
+    "import/extensions": "off",
+    "react/prop-types": "off",
+    "react/react-in-jsx-scope": "off",
+    "react/function-component-definition": "off",
+
+    "no-restricted-globals": "warn",
+    "import/prefer-default-export": "warn",
+    "jsx-a11y/label-has-associated-control": "warn",
+    "camelcase": "warn",
+    "react/button-has-type": "warn",
+    "consistent-return": "warn",
+    "jsx-a11y/anchor-is-valid": "warn",
+    "array-callback-return": "warn",
+    "import/no-named-as-default": "warn",
+    "jsx-a11y/click-events-have-key-events": "warn",
+    "jsx-a11y/control-has-associated-label": "warn",
+    "jsx-a11y/no-static-element-interactions": "warn",
+    "no-lone-blocks": "warn",
+    "no-nested-ternary": "warn",
+    "no-shadow": "warn",
+    "no-undef": "warn",
+    "no-unsafe-optional-chaining": "warn",
+    "no-unused-expressions": "warn",
+    "no-use-before-define": "warn",
+    "no-useless-escape": "warn",
+    "no-param-reassign": "warn",
+    "react/jsx-props-no-spreading": "warn",
+    "react/no-array-index-key": "warn",
+    "react/require-default-props": "warn",
+    "react/jsx-no-constructed-context-values": "warn",
+    "no-plusplus": "warn"
+  }
+}
+
+
